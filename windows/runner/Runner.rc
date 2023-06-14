@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "audioplayer_marcusng" "\0"
+            VALUE "FileDescription", "jooxclone_jittabun" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "audioplayer_marcusng" "\0"
+            VALUE "InternalName", "jooxclone_jittabun" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "audioplayer_marcusng.exe" "\0"
-            VALUE "ProductName", "audioplayer_marcusng" "\0"
+            VALUE "OriginalFilename", "jooxclone_jittabun.exe" "\0"
+            VALUE "ProductName", "jooxclone_jittabun" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.audioplayer_marcusng">
+    package="com.example.jooxclone_jittabun">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="audioplayer_marcusng"
+        android:label="jooxclone_jittabun"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
