@@ -1,4 +1,4 @@
-import 'package:jooxclone_jittabun/data/data.dart';
+import 'package:jooxclone_jittabun/data/dataforui.dart';
 
 class AlbumCard {
   final String title;

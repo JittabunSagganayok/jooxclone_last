@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jooxclone_jittabun/model/modeldata.dart';
+import 'package:jooxclone_jittabun/model/ui_modeldata.dart';
 // import 'package:jooxclone_jittabun/data/data.dart';
 
 class HomePage extends StatefulWidget {
