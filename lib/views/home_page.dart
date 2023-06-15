@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jooxclone_jittabun/data/data.dart';
+import 'package:jooxclone_jittabun/model/modeldata.dart';
+// import 'package:jooxclone_jittabun/data/data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const double baseWidth = 430;
   Color? bgColor = Colors.black;
+
+  List<AlbumCard> albumCards = getAlbumCardData();
+  List<SuggestData> suggestData = getSuggestData();
+  List<Artist> artistsData = getArtistsData();
+  List<DailyData> dailyData = getDailyData();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +49,9 @@ class _HomePageState extends State<HomePage> {
                 height: 150 * fem,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: dataforalbumcard.length,
+                  itemCount: albumCards.length,
                   itemBuilder: (context, index) {
-                    final item = dataforalbumcard[index];
+                    final item = albumCards[index];
                     return buildcard(index, item);
                   },
                   separatorBuilder: (context, index) {
@@ -143,9 +149,9 @@ class _HomePageState extends State<HomePage> {
                   height: 200 * fem,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: dataforsuggest.length,
+                    itemCount: suggestData.length,
                     itemBuilder: (context, index) {
-                      final item = dataforsuggest[index];
+                      final item = suggestData[index];
                       return suggestcard(index, item);
                     },
                     separatorBuilder: (context, index) {
@@ -177,9 +183,9 @@ class _HomePageState extends State<HomePage> {
                 height: 150 * fem,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: datafordaily.length,
+                  itemCount: dailyData.length,
                   itemBuilder: (context, index) {
-                    final item = datafordaily[index];
+                    final item = dailyData[index];
                     return buildcard(index, item);
                   },
                   separatorBuilder: (context, index) {
@@ -476,7 +482,7 @@ class _HomePageState extends State<HomePage> {
       child: Stack(
         children: [
           Image.asset(
-            item['image'],
+            item.image,
             height: 150 * fem,
             width: 140 * fem,
             fit: BoxFit.fill,
@@ -495,14 +501,14 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item['title'],
+                        item.title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17 * fem,
                         ),
                       ),
                       Text(
-                        item['description'],
+                        item.description,
                         style: TextStyle(
                           color: textColor,
                           fontSize: 15 * fem,
@@ -537,7 +543,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget suggestcard(int index, Map<String, dynamic> item) {
+  Widget suggestcard(int index, final item) {
     final screenWidth = MediaQuery.of(context).size.width;
     final fem = screenWidth / baseWidth;
     return SizedBox(
@@ -551,15 +557,66 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              suggestitem('image1', 'title1', 'artist1', item),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    item.image1,
+                    height: 55 * fem,
+                    width: 55 * fem,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    width: 10 * fem,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(item.title1), Text(item.artist1)],
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 10 * fem,
               ),
-              suggestitem('image2', 'title2', 'artist2', item),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    item.image2,
+                    height: 55 * fem,
+                    width: 55 * fem,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    width: 10 * fem,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(item.title2), Text(item.artist2)],
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 10 * fem,
               ),
-              suggestitem('image3', 'title3', 'artist3', item),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    item.image3,
+                    height: 55 * fem,
+                    width: 55 * fem,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    width: 10 * fem,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(item.title3), Text(item.artist3)],
+                  ),
+                ],
+              ),
             ],
           ),
         ],
@@ -567,27 +624,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget suggestitem(
-      String image, String title, String artist, Map<String, dynamic> item) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset(
-          item[image],
-          height: 55 * fem,
-          width: 55 * fem,
-          fit: BoxFit.cover,
-        ),
-        SizedBox(
-          width: 10 * fem,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(item[title]), Text(item[artist])],
-        ),
-      ],
-    );
-  }
+//   Widget suggestitem(String image, String title, String artist, final item) {
+//     final screenWidth = MediaQuery.of(context).size.width;
+//     final fem = screenWidth / baseWidth;
+//     return Row(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       children: [
+//         Image.asset(
+//           item.image1,
+//           height: 55 * fem,
+//           width: 55 * fem,
+//           fit: BoxFit.cover,
+//         ),
+//         SizedBox(
+//           width: 10 * fem,
+//         ),
+//         Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [Text(item.title1), Text(item.artist1)],
+//         ),
+//       ],
+//     );
+//   }
 }
