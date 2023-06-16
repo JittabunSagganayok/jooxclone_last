@@ -7,6 +7,7 @@ import 'package:jooxclone_jittabun/model/audio_model.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
+import 'dart:math' as math;
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({Key? key}) : super(key: key);
@@ -72,6 +73,33 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                         padding: EdgeInsets.fromLTRB(20 * fem, 0, 20 * fem, 0),
                         child: Column(
                           children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Transform.rotate(
+                                  angle: 90 * math.pi / 180,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: null,
+                                    iconSize: 30 * fem,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.more_horiz,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: null,
+                                  iconSize: 30 * fem,
+                                ),
+                              ],
+                            ),
                             uiforaudioplayercontrol(
                                 audioPlayer: _audioController.audioPlayer),
                             SizedBox(
@@ -163,7 +191,7 @@ class uiforaudioplayercontrol extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: (height * 0.5) + 170 * fem,
+          height: (height * 0.5) + 70 * fem,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
