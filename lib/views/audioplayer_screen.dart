@@ -2,260 +2,11 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:jooxclone_jittabun/controller/audio_controller.dart';
+import 'package:jooxclone_jittabun/fonts/utils.dart';
 import 'package:jooxclone_jittabun/model/audio_model.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
-
-// //อธิบาย /**/
-// class PositionData {
-//   const PositionData(
-//     this.position,
-//     this.bufferedPosition,
-//     this.duration,
-//   );
-//   final Duration position;
-//   final Duration bufferedPosition;
-//   final Duration duration;
-// }
-
-// class AudioPlayerScreen extends StatefulWidget {
-//   const AudioPlayerScreen({super.key});
-
-//   @override
-//   State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
-// }
-
-// //อธิบาย /**/
-// class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
-//   late AudioPlayer _audioPlayer;
-
-// //อธิบายการ set ข้อมูลจาก playlist ดูตั้งแต่ 3:38
-//   final _playlist = ConcatenatingAudioSource(
-//     children: [
-//       AudioSource.uri(Uri.parse('asset:///assets/audio/cupid.mp3'),
-//           tag: MediaItem(
-//               id: "0",
-//               title: "Cupid",
-//               displaySubtitle: "0xffFFC0CB",
-//               artist: 'FiftyFifty',
-//               displayDescription: "description1",
-//               artUri: Uri.parse('https://img.pic.in.th/cupid.jpeg'))),
-
-//       AudioSource.uri(Uri.parse('asset:///assets/audio/nightdancer.mp3'),
-//           tag: MediaItem(
-//               id: "1",
-//               title: "Night Dancer",
-//               artist: 'Imase',
-//               artUri: Uri.parse('https://img.pic.in.th/nightdancer.jpeg'))),
-//       //ใส่เป็นลิ้ง url ได้
-//       //AudioSource.uri(Uri.parse('https://')),
-//     ],
-//   );
-
-//   Stream<PositionData> get _positionDataStream =>
-//       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-//         _audioPlayer.positionStream,
-//         _audioPlayer.bufferedPositionStream,
-//         _audioPlayer.durationStream,
-//         (position, bufferedPosition, duration) =>
-//             PositionData(position, bufferedPosition, duration ?? Duration.zero),
-//       );
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     //_audioPlayer = AudioPlayer()..setAsset('assets/audio/cupid.mp3');
-//     //..setUrl('');
-//     //เปลี่ยนเป็นลิ้งURLได้ yt ดูนาที 3:25
-
-//     _audioPlayer = AudioPlayer();
-//     _init();
-//   }
-
-//   Future<void> _init() async {
-//     await _audioPlayer.setLoopMode(LoopMode.all);
-//     //set ข้อมูลจาก playlist
-//     await _audioPlayer.setAudioSource(_playlist);
-//     /**/
-//   }
-
-//   @override
-//   void dispose() {
-//     _audioPlayer.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         // appBar: AppBar(
-//         //   backgroundColor: Colors.amber,
-//         // ),
-//         body: Container(
-//       color: Colors.blueAccent,
-//       padding: const EdgeInsets.all(20),
-//       height: double.infinity,
-//       width: double.infinity,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         //อธิบาย /**/ buffer คือ แถบเทาๆในยูทูปที่โหลดล่วงหน้าไว้ก่อนเล่นวิดิโอ
-//         children: [
-//           //อธิบาย Streambuilder (set ค่าให้ image artist url มาแสดง)
-//           StreamBuilder<SequenceState?>(
-//               stream: _audioPlayer.sequenceStateStream,
-//               builder: (context, snapshot) {
-//                 final state = snapshot.data;
-//                 if (state?.sequence.isEmpty ?? true) {
-//                   return const SizedBox();
-//                 } else {
-//                   final metadata = state!.currentSource!.tag as MediaItem;
-//                   return MediaMetadata(
-//                     imageUrl: metadata.artUri.toString(),
-//                     artist: metadata.artist ?? '',
-//                     title: metadata.title,
-//                     color: metadata.displaySubtitle ?? '0xff000000',
-//                   );
-//                 }
-//               }),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           StreamBuilder<PositionData>(
-//               stream: _positionDataStream,
-//               builder: (context, snapshot) {
-//                 final PositionData = snapshot.data;
-//                 return ProgressBar(
-//                   barHeight: 8,
-//                   baseBarColor: Colors.grey[600],
-//                   bufferedBarColor: Colors.grey,
-//                   progressBarColor: Colors.red,
-//                   thumbColor: Colors.red,
-//                   timeLabelTextStyle: const TextStyle(
-//                     color: Colors.white,
-//                     fontWeight: FontWeight.w600,
-//                   ),
-//                   progress: PositionData?.position ?? Duration.zero,
-//                   buffered: PositionData?.bufferedPosition ?? Duration.zero,
-//                   total: PositionData?.duration ?? Duration.zero,
-//                   onSeek: _audioPlayer.seek,
-//                 );
-//               }),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           Controls(audioPlayer: _audioPlayer)
-//         ],
-//       ),
-//     )
-//         // This trailing comma makes auto-formatting nicer for build methods.
-//         );
-//   }
-// }
-
-// //อธิบาย /**/
-
-// //Row ของปุ่ม
-// class Controls extends StatelessWidget {
-//   const Controls({super.key, required this.audioPlayer});
-
-//   final AudioPlayer audioPlayer;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         IconButton(
-//           onPressed: audioPlayer.seekToPrevious,
-//           iconSize: 60,
-//           color: Colors.white,
-//           icon: Icon(Icons.skip_previous_rounded),
-//         ),
-//         StreamBuilder<PlayerState>(
-//             stream: audioPlayer.playerStateStream,
-//             builder: (context, snapshot) {
-//               final playerState = snapshot.data;
-//               final processingState = playerState?.processingState;
-//               final playing = playerState?.playing;
-//               if (!(playing ?? false)) {
-//                 return IconButton(
-//                   onPressed: audioPlayer.play,
-//                   iconSize: 80,
-//                   color: Colors.white,
-//                   icon: Icon(Icons.play_arrow_rounded),
-//                 );
-//               } else if (processingState != ProcessingState.completed) {
-//                 return IconButton(
-//                   onPressed: audioPlayer.pause,
-//                   iconSize: 80,
-//                   color: Colors.white,
-//                   icon: Icon(Icons.pause_rounded),
-//                 );
-//               }
-//               return const Icon(
-//                 Icons.play_arrow_rounded,
-//                 size: 80,
-//                 color: Colors.white,
-//               );
-//             }),
-//         IconButton(
-//           onPressed: audioPlayer.seekToNext,
-//           iconSize: 60,
-//           color: Colors.white,
-//           icon: Icon(Icons.skip_next_rounded),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// /**/
-// class MediaMetadata extends StatelessWidget {
-//   const MediaMetadata(
-//       {super.key,
-//       required this.imageUrl,
-//       required this.title,
-//       required this.artist,
-//       required this.color});
-//   final String imageUrl;
-//   final String title;
-//   final String artist;
-//   final String color;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Color? colorbg;
-//     int colorValue = int.parse(color);
-//     colorbg = Color(colorValue);
-
-//     return Column(
-//       children: [
-//         ClipRect(
-//           child: CachedNetworkImage(
-//             imageUrl: imageUrl,
-//             height: 300,
-//             width: 300,
-//             fit: BoxFit.cover,
-//           ),
-//         ),
-//         SizedBox(
-//           height: 20,
-//         ),
-//         Text(title),
-//         SizedBox(
-//           height: 20,
-//         ),
-//         Text(artist),
-//         Container(
-//           width: 50,
-//           height: 50,
-//           color: colorbg,
-//         )
-//       ],
-//     );
-//   }
-// }
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({Key? key}) : super(key: key);
@@ -266,15 +17,8 @@ class AudioPlayerScreen extends StatefulWidget {
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   final AudioController _audioController = AudioController();
+  // static const double baseWidth = 430;
 
-  // Stream<PositionData> get _positionDataStream =>
-  //     Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-  //       _audioController.audioPlayer.positionStream,
-  //       _audioController.audioPlayer.bufferedPositionStream,
-  //       _audioController.audioPlayer.durationStream,
-  //       (position, bufferedPosition, duration) =>
-  //           PositionData(position, bufferedPosition, duration ?? Duration.zero),
-  //     );
   Stream<PositionData> get _positionDataStream =>
       _audioController.positionDataStream;
 
@@ -292,56 +36,79 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const double baseWidth = 430;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fem = screenWidth / baseWidth;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        color: Colors.blueAccent,
-        padding: const EdgeInsets.all(20),
+        //color: Colors.blueAccent,
+        //padding: const EdgeInsets.all(20),
         height: double.infinity,
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             StreamBuilder<SequenceState?>(
+              /* stream จาก audioPlayer ที่ set playlist แล้ว */
               stream: _audioController.audioPlayer.sequenceStateStream,
               builder: (context, snapshot) {
                 final state = snapshot.data;
                 if (state?.sequence.isEmpty ?? true) {
                   return const SizedBox();
                 } else {
+                  /* metadata ข้อมูลต่างๆใน data playlist */
                   final metadata = state!.currentSource!.tag as MediaItem;
-                  return MediaMetadata(
-                    imageUrl: metadata.artUri.toString(),
-                    artist: metadata.artist ?? '',
-                    title: metadata.title,
-                    color: metadata.displaySubtitle ?? '0xff000000',
+                  /* ui รูป title artist  */
+                  return Stack(
+                    children: [
+                      bgpictextforaudioplayer(
+                        imageUrl: metadata.artUri.toString(),
+                        artist: metadata.artist ?? '',
+                        title: metadata.title,
+                        color: metadata.displaySubtitle ?? '0xff000000',
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20 * fem, 0, 20 * fem, 0),
+                        child: Column(
+                          children: [
+                            uiforaudioplayercontrol(
+                                audioPlayer: _audioController.audioPlayer),
+                            SizedBox(
+                              height: 10 * fem,
+                            ),
+                            StreamBuilder<PositionData>(
+                              stream: _positionDataStream,
+                              builder: (context, snapshot) {
+                                final positionData = snapshot.data;
+                                /* ui แถบ ProgressBar  */
+                                return uiforaudioplayerprogressbar(
+                                    positionData: positionData,
+                                    audioController: _audioController);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   );
                 }
               },
             ),
-            SizedBox(height: 20),
-            StreamBuilder<PositionData>(
-              stream: _positionDataStream,
-              builder: (context, snapshot) {
-                final positionData = snapshot.data;
-                return ProgressBar(
-                  barHeight: 8,
-                  baseBarColor: Colors.grey[600],
-                  bufferedBarColor: Colors.grey,
-                  progressBarColor: Colors.red,
-                  thumbColor: Colors.red,
-                  timeLabelTextStyle: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  progress: positionData?.position ?? Duration.zero,
-                  buffered: positionData?.bufferedPosition ?? Duration.zero,
-                  total: positionData?.duration ?? Duration.zero,
-                  onSeek: _audioController.audioPlayer.seek,
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            Controls(audioPlayer: _audioController.audioPlayer),
+            // SizedBox(height: 20),
+            // StreamBuilder<PositionData>(
+            //   stream: _positionDataStream,
+            //   builder: (context, snapshot) {
+            //     final positionData = snapshot.data;
+            //     /* ui แถบ ProgressBar  */
+            //     return uiforaudioplayerprogressbar(
+            //         positionData: positionData,
+            //         audioController: _audioController);
+            //   },
+            // ),
+            // SizedBox(height: 20),
+            // /* ui แถบ Controls ปุ่ม play pause เปลี่ยนดพลง */
+            // uiforaudioplayercontrol(audioPlayer: _audioController.audioPlayer),
           ],
         ),
       ),
@@ -349,63 +116,122 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   }
 }
 
-class Controls extends StatelessWidget {
-  const Controls({Key? key, required this.audioPlayer}) : super(key: key);
+class uiforaudioplayerprogressbar extends StatelessWidget {
+  const uiforaudioplayerprogressbar({
+    super.key,
+    required this.positionData,
+    required AudioController audioController,
+  }) : _audioController = audioController;
+
+  final PositionData? positionData;
+  final AudioController _audioController;
+
+  @override
+  Widget build(BuildContext context) {
+    return ProgressBar(
+      barHeight: 2.5,
+      baseBarColor: Colors.grey[600],
+      bufferedBarColor: Colors.grey,
+      progressBarColor: Colors.green,
+      thumbColor: Colors.white,
+      timeLabelTextStyle: TextStyle(
+        fontSize: 13,
+        color: Colors.white.withOpacity(0.5),
+        fontWeight: FontWeight.w400,
+      ),
+      progress: positionData?.position ?? Duration.zero,
+      buffered: positionData?.bufferedPosition ?? Duration.zero,
+      total: positionData?.duration ?? Duration.zero,
+      onSeek: _audioController.audioPlayer.seek,
+    );
+  }
+}
+
+class uiforaudioplayercontrol extends StatelessWidget {
+  const uiforaudioplayercontrol({Key? key, required this.audioPlayer})
+      : super(key: key);
 
   final AudioPlayer audioPlayer;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    double height = MediaQuery.of(context).size.height;
+    const double baseWidth = 430;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fem = screenWidth / baseWidth;
+
+    return Column(
       children: [
-        IconButton(
-          onPressed: audioPlayer.seekToPrevious,
-          iconSize: 60,
-          color: Colors.white,
-          icon: Icon(Icons.skip_previous_rounded),
+        SizedBox(
+          height: (height * 0.5) + 170 * fem,
         ),
-        StreamBuilder<PlayerState>(
-          stream: audioPlayer.playerStateStream,
-          builder: (context, snapshot) {
-            final playerState = snapshot.data;
-            final processingState = playerState?.processingState;
-            final playing = playerState?.playing;
-            if (!(playing ?? false)) {
-              return IconButton(
-                onPressed: audioPlayer.play,
-                iconSize: 80,
-                color: Colors.white,
-                icon: Icon(Icons.play_arrow_rounded),
-              );
-            } else if (processingState != ProcessingState.completed) {
-              return IconButton(
-                onPressed: audioPlayer.pause,
-                iconSize: 80,
-                color: Colors.white,
-                icon: Icon(Icons.pause_rounded),
-              );
-            }
-            return const Icon(
-              Icons.play_arrow_rounded,
-              size: 80,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: () {},
+              iconSize: 30,
+              color: Colors.white.withOpacity(0.5),
+              icon: Icon(Icons.favorite_border),
+            ),
+            IconButton(
+              onPressed: audioPlayer.seekToPrevious,
+              iconSize: 50,
               color: Colors.white,
-            );
-          },
+              icon: Icon(Icons.skip_previous),
+            ),
+            StreamBuilder<PlayerState>(
+              stream: audioPlayer.playerStateStream,
+              builder: (context, snapshot) {
+                final playerState = snapshot.data;
+                final processingState = playerState?.processingState;
+                final playing = playerState?.playing;
+                if (!(playing ?? false)) {
+                  return IconButton(
+                    onPressed: audioPlayer.play,
+                    iconSize: 80,
+                    color: Colors.white,
+                    icon: Icon(Icons.play_circle),
+                  );
+                } else if (processingState != ProcessingState.completed) {
+                  return IconButton(
+                    onPressed: audioPlayer.pause,
+                    iconSize: 80,
+                    color: Colors.white,
+                    icon: Icon(Icons.pause_circle),
+                  );
+                }
+                return const Icon(
+                  Icons.play_circle,
+                  size: 80,
+                  color: Colors.white,
+                );
+              },
+            ),
+            IconButton(
+              onPressed: audioPlayer.seekToNext,
+              iconSize: 50,
+              color: Colors.white,
+              icon: Icon(Icons.skip_next),
+            ),
+            IconButton(
+              onPressed: () {},
+              iconSize: 30,
+              color: Colors.white.withOpacity(0.5),
+              icon: Icon(Icons.heart_broken_outlined),
+            ),
+          ],
         ),
-        IconButton(
-          onPressed: audioPlayer.seekToNext,
-          iconSize: 60,
-          color: Colors.white,
-          icon: Icon(Icons.skip_next_rounded),
+        SizedBox(
+          height: 10 * fem,
         ),
       ],
     );
   }
 }
 
-class MediaMetadata extends StatelessWidget {
-  const MediaMetadata({
+class bgpictextforaudioplayer extends StatelessWidget {
+  const bgpictextforaudioplayer({
     Key? key,
     required this.imageUrl,
     required this.title,
@@ -423,27 +249,209 @@ class MediaMetadata extends StatelessWidget {
     Color? colorbg;
     int colorValue = int.parse(color);
     colorbg = Color(colorValue);
-
-    return Column(
+    const double baseWidth = 430;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final fem = screenWidth / baseWidth;
+    double height = MediaQuery.of(context).size.height;
+    return
+        // Column(
+        //   children: [
+        //     ClipRect(
+        //       child: CachedNetworkImage(
+        //         imageUrl: imageUrl,
+        //         height: 300,
+        //         width: 300,
+        //         fit: BoxFit.cover,
+        //       ),
+        //     ),
+        //     SizedBox(height: 20),
+        //     Text(title),
+        //     SizedBox(height: 20),
+        //     Text(artist),
+        //     Container(
+        //       width: 50,
+        //       height: 50,
+        //       color: colorbg,
+        //     ),
+        //   ],
+        // );
+        Stack(
       children: [
+        Container(
+          color: colorbg.withOpacity(1),
+        ),
         ClipRect(
           child: CachedNetworkImage(
             imageUrl: imageUrl,
-            height: 300,
-            width: 300,
+            height: 0.5 * height,
+            width: double.infinity,
             fit: BoxFit.cover,
           ),
         ),
-        SizedBox(height: 20),
-        Text(title),
-        SizedBox(height: 20),
-        Text(artist),
-        Container(
-          width: 50,
-          height: 50,
-          color: colorbg,
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0.2 * height, 0, 0),
+          child: Container(
+            height: 0.3 * height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                colorbg.withOpacity(1),
+
+                colorbg.withOpacity(0),
+                // Colors.white.withOpacity(0.5)
+              ],
+              stops: [0.0, 1],
+              begin: Alignment.bottomRight,
+            )),
+          ),
         ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 0.5 * height, 0, 0),
+          child: Padding(
+            padding:
+                EdgeInsets.fromLTRB(20 * fem, 10 * fem, 20 * fem, 20 * fem),
+            child: Column(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: SafeGoogleFont(
+                        'kanit',
+                        fontSize: 24 * fem,
+                        fontWeight: FontWeight.w600,
+                        height: 1.0,
+                        color: const Color(0xffffffff),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8 * fem,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          artist,
+                          style: SafeGoogleFont(
+                            'kanit',
+                            fontSize: 18 * fem,
+                            fontWeight: FontWeight.w400,
+                            height: 1.495,
+                            color: const Color(0xffffffff).withOpacity(0.5),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3 * fem,
+                        ),
+                        //iconwithbg(),
+                        Stack(
+                          children: [
+                            Container(
+                              width: 15 * fem,
+                              height: 15 * fem,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xffffffff).withOpacity(0.5),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  size: 10 * fem,
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10 * fem,
+                        ),
+                        bordercontainer(fem, "Med"),
+                        SizedBox(
+                          width: 10 * fem,
+                        ),
+                        bordercontainer(fem, "Galaxy Sound")
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30 * fem,
+                    ),
+                    Text(
+                      "เพลง: ${title}",
+                      style: SafeGoogleFont(
+                        'kanit',
+                        fontSize: 16 * fem,
+                        fontWeight: FontWeight.w600,
+                        height: 1.495,
+                        color: const Color(0xffffffff),
+                      ),
+                    ),
+                    Text(
+                      "ศิลปิน: ${artist}",
+                      style: SafeGoogleFont(
+                        'kanit',
+                        fontSize: 16 * fem,
+                        fontWeight: FontWeight.w400,
+                        height: 1.495,
+                        color: const Color(0xffffffff).withOpacity(0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
+}
+
+Widget bordercontainer(double fem, String text) {
+  return Container(
+    //margin: const EdgeInsets.all(15.0),
+    padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+    decoration: BoxDecoration(
+        border: Border.all(
+      color: Color(0xffffffff).withOpacity(0.5),
+    )),
+    child: Row(
+      children: [
+        Text(
+          text,
+          style: SafeGoogleFont(
+            'kanit',
+            fontSize: 12 * fem,
+            fontWeight: FontWeight.w800,
+            //height: 1.495,
+            color: const Color(0xffffffff).withOpacity(0.7),
+          ),
+        ),
+        SizedBox(
+          width: 3,
+        ),
+        //iconwithbgsmall(),
+        Stack(
+          children: [
+            Container(
+              width: 8 * fem,
+              height: 8 * fem,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xffffffff).withOpacity(0.5),
+              ),
+              child: Center(
+                child: Icon(
+                  size: 5 * fem,
+                  Icons.arrow_forward_ios,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
+    ),
+  );
 }
