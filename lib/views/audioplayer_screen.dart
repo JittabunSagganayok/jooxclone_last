@@ -9,6 +9,7 @@ import 'package:jooxclone_jittabun/views/start_page.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_color_models/flutter_color_models.dart';
 import 'dart:math' as math;
 
 class AudioPlayerScreen extends StatefulWidget {
@@ -140,7 +141,26 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                                     audioController: _audioController);
                               },
                             ),
-                            Text("data")
+                            SizedBox(
+                              height: 20 * fem,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                iconwithtext(Icons.repeat, "โหมด"),
+                                iconwithtext(Icons.download, "ดาวน์โหลด"),
+                                iconwithtext(Icons.comment, "ความคิดเห็น"),
+                                iconwithtext(Icons.mic, "ร้องเพลง"),
+                                iconwithtext(Icons.share, "แชร์"),
+                              ],
+                            ),
+                            // Expanded(child: SizedBox()),
+                            // Container(
+                            //   color: metadata.displaySubtitle,
+                            //   child: Text(
+                            //     "data",
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
@@ -151,6 +171,50 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget iconwithtext(IconData icon, String text) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    const double baseWidth = 430;
+    final fem = screenWidth / baseWidth;
+    return SizedBox(
+      // width: 78 * fem,
+      // height: 90 * fem,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: 30 * fem,
+                height: 30 * fem,
+                decoration: BoxDecoration(
+                    //shape: BoxShape.circle,
+                    //color: bgcolor,
+                    ),
+                child: Center(
+                  child: Icon(
+                    size: 28 * fem,
+                    icon,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 5 * fem,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+                fontSize: 12 * fem,
+                fontWeight: FontWeight.w200,
+                color: Colors.white.withOpacity(0.9)),
+          )
+        ],
       ),
     );
   }
@@ -289,6 +353,14 @@ class bgpictextforaudioplayer extends StatelessWidget {
     Color? colorbg;
     int colorValue = int.parse(color);
     colorbg = Color(colorValue);
+
+    int darkenAmount = 20; // Adjust this value to make the color darker
+
+    int red = (colorbg.red + darkenAmount).clamp(0, 255);
+    int green = (colorbg.green + darkenAmount).clamp(0, 255);
+    int blue = (colorbg.blue + darkenAmount).clamp(0, 255);
+
+    Color colorbottom = Color.fromARGB(colorbg.alpha, red, green, blue);
     const double baseWidth = 430;
     final screenWidth = MediaQuery.of(context).size.width;
     final fem = screenWidth / baseWidth;
@@ -344,6 +416,56 @@ class bgpictextforaudioplayer extends StatelessWidget {
               begin: Alignment.bottomRight,
             )),
           ),
+        ),
+        Column(
+          children: [
+            Expanded(
+              child: SizedBox(),
+            ),
+            Container(
+                padding: EdgeInsets.fromLTRB(25, 10, 35, 0),
+                color: colorbottom,
+                height: 55 * fem,
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("เลื่อนขึ้นเพื่อดูรายละเอียดเพลง"),
+                    Stack(
+                      children: [
+                        Opacity(
+                          opacity: 1,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-512.png",
+                            //height: 5,
+                            width: 20,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Opacity(
+                              opacity: 0.5,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-512.png",
+                                //height: 25,
+                                width: 20,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                )),
+          ],
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(0, 0.5 * height, 0, 0),
