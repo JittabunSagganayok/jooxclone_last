@@ -4,20 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:jooxclone_jittabun/controller/audio_controller.dart';
 import 'package:jooxclone_jittabun/fonts/utils.dart';
 import 'package:jooxclone_jittabun/model/audio_model.dart';
+import 'package:jooxclone_jittabun/model/ui_modeldata.dart';
+import 'package:jooxclone_jittabun/views/start_page.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:math' as math;
 
 class AudioPlayerScreen extends StatefulWidget {
-  const AudioPlayerScreen({Key? key}) : super(key: key);
+  AudioPlayerScreen(
+      {Key? key,
+      required this.uri,
+      required this.title,
+      required this.displaySubtitle,
+      required this.artist,
+      required this.artUri})
+      : super(key: key);
 
+  String uri;
+  String title;
+  String displaySubtitle;
+  String artist;
+  String artUri;
   @override
   _AudioPlayerScreenState createState() => _AudioPlayerScreenState();
 }
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
-  final AudioController _audioController = AudioController();
+  //final AudioController _audioController = AudioController();
+  late AudioController _audioController;
+
   // static const double baseWidth = 430;
 
   Stream<PositionData> get _positionDataStream =>
@@ -27,6 +43,13 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   void initState() {
     super.initState();
     // _audioController.init();
+    _audioController = AudioController(
+      widget.uri,
+      widget.title,
+      widget.displaySubtitle,
+      widget.artist,
+      widget.artUri,
+    );
   }
 
   @override
@@ -86,7 +109,9 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                                       Icons.arrow_forward_ios,
                                       color: Colors.white,
                                     ),
-                                    onPressed: null,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
                                     iconSize: 30 * fem,
                                   ),
                                 ),
@@ -115,6 +140,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                                     audioController: _audioController);
                               },
                             ),
+                            Text("data")
                           ],
                         ),
                       ),
@@ -123,20 +149,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 }
               },
             ),
-            // SizedBox(height: 20),
-            // StreamBuilder<PositionData>(
-            //   stream: _positionDataStream,
-            //   builder: (context, snapshot) {
-            //     final positionData = snapshot.data;
-            //     /* ui แถบ ProgressBar  */
-            //     return uiforaudioplayerprogressbar(
-            //         positionData: positionData,
-            //         audioController: _audioController);
-            //   },
-            // ),
-            // SizedBox(height: 20),
-            // /* ui แถบ Controls ปุ่ม play pause เปลี่ยนดพลง */
-            // uiforaudioplayercontrol(audioPlayer: _audioController.audioPlayer),
           ],
         ),
       ),

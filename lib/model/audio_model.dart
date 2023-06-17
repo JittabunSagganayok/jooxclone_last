@@ -21,8 +21,15 @@ class AudioData {
 }
 
 //นำ list data จากไฟล์ data มาแปลงให้อ้างอิง model : class AudioData
-List<AudioData> getAudioData() {
-  return dataforaudio.map((data) {
+
+List<AudioData> getAudioData(
+  String uri,
+  String title,
+  String displaySubtitle,
+  String artist,
+  String artUri,
+) {
+  List<AudioData> audioDataList = dataforaudio.map((data) {
     return AudioData(
       uri: data['uri'],
       mediaItem: MediaItem(
@@ -30,18 +37,43 @@ List<AudioData> getAudioData() {
         title: data['title'],
         displaySubtitle: data['displaySubtitle'],
         artist: data['artist'],
-        //displayDescription: displayDescription,
         artUri: Uri.parse(data['artUri']),
       ),
     );
   }).toList();
+
+  // Set the initial data for the first song
+  if (audioDataList.isNotEmpty) {
+    AudioData firstSong = audioDataList[0];
+
+    AudioData updatedFirstSong = AudioData(
+      uri: uri,
+      mediaItem: MediaItem(
+        id: "0",
+        title: title,
+        displaySubtitle: displaySubtitle,
+        artist: artist,
+        artUri: Uri.parse(artUri),
+      ),
+    );
+    audioDataList[0] = updatedFirstSong;
+  }
+
+  return audioDataList;
 }
 
 //นำ list จาก getAudioData มาแปลงให้เป็นformat ConcatenatingAudioSource
 class AudioModel {
-  static ConcatenatingAudioSource getPlaylist() {
+  static ConcatenatingAudioSource getPlaylist(
+    String uri,
+    String title,
+    String displaySubtitle,
+    String artist,
+    String artUri,
+  ) {
     //ทำ list จาก getAudioData ให้เป็น List<AudioSource> audioSources เพื่อใส่ใน ConcatenatingAudioSource
-    final List<AudioData> audioDataList = getAudioData();
+    final List<AudioData> audioDataList =
+        getAudioData(uri, title, displaySubtitle, artist, artUri);
     final List<AudioSource> audioSources = audioDataList.map((audioData) {
       return AudioSource.uri(
         Uri.parse(audioData.uri),
@@ -52,6 +84,8 @@ class AudioModel {
     return ConcatenatingAudioSource(children: audioSources);
   }
 }
+
+
 
 //อันเดิมที่ใช้ได้
 

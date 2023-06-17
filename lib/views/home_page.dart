@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jooxclone_jittabun/model/ui_modeldata.dart';
+import 'package:jooxclone_jittabun/views/audioplayer_screen.dart';
 // import 'package:jooxclone_jittabun/data/data.dart';
 
 class HomePage extends StatefulWidget {
@@ -557,65 +558,108 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    item.image1,
-                    height: 55 * fem,
-                    width: 55 * fem,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(
-                    width: 10 * fem,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(item.title1), Text(item.artist1)],
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AudioPlayerScreen(
+                                uri: item.uri1,
+                                title: item.title1,
+                                displaySubtitle: item.displaySubtitle1,
+                                artist: item.artist1,
+                                artUri: item.artUri1,
+                              )));
+                  // print("OLO");
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      item.image1,
+                      height: 55 * fem,
+                      width: 55 * fem,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      width: 10 * fem,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(item.title1), Text(item.artist1)],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10 * fem,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    item.image2,
-                    height: 55 * fem,
-                    width: 55 * fem,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(
-                    width: 10 * fem,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(item.title2), Text(item.artist2)],
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AudioPlayerScreen(
+                                uri: item.uri2,
+                                title: item.title2,
+                                displaySubtitle: item.displaySubtitle2,
+                                artist: item.artist2,
+                                artUri: item.artUri2,
+                              )));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      item.image2,
+                      height: 55 * fem,
+                      width: 55 * fem,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      width: 10 * fem,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(item.title2), Text(item.artist2)],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 10 * fem,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    item.image3,
-                    height: 55 * fem,
-                    width: 55 * fem,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(
-                    width: 10 * fem,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(item.title3), Text(item.artist3)],
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AudioPlayerScreen(
+                                uri: item.uri3,
+                                title: item.title3,
+                                displaySubtitle: item.displaySubtitle3,
+                                artist: item.artist3,
+                                artUri: item.artUri3,
+                              )));
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      item.image3,
+                      height: 55 * fem,
+                      width: 55 * fem,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(
+                      width: 10 * fem,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(item.title3), Text(item.artist3)],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

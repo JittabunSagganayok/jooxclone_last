@@ -3,18 +3,37 @@ import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AudioController {
+  String uri;
+  String title;
+  String displaySubtitle;
+  String artist;
+  String artUri;
+
   late AudioPlayer _audioPlayer;
   // late AudioController _audioController;
 
-  AudioController() {
+  AudioController(
+    this.uri,
+    this.title,
+    this.displaySubtitle,
+    this.artist,
+    this.artUri,
+  ) {
     _audioPlayer = AudioPlayer();
-    init();
+    init(uri, title, displaySubtitle, artist, artUri);
   }
 
 //method 1. set ค่า playlist
-  Future<void> init() async {
+  Future<void> init(
+    String uri,
+    String title,
+    String displaySubtitle,
+    String artist,
+    String artUri,
+  ) async {
     await _audioPlayer.setLoopMode(LoopMode.all);
-    final playlist = AudioModel.getPlaylist();
+    final playlist =
+        AudioModel.getPlaylist(uri, title, displaySubtitle, artist, artUri);
     await _audioPlayer.setAudioSource(playlist);
   }
 

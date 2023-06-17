@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         // ),
       ),
       //home: const AudioPlayerScreen(),
-      home: AudioPlayerScreen(),
+      home: LoginPage(),
     );
   }
 }
