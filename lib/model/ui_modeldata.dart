@@ -67,11 +67,13 @@ class SuggestData {
 
 class Artist {
   final String image;
-  final String name;
+  final String title;
+  final String color;
 
   Artist({
     required this.image,
-    required this.name,
+    required this.title,
+    required this.color,
   });
 }
 
@@ -137,7 +139,8 @@ List<Artist> getArtistsData() {
   return artists.map((data) {
     return Artist(
       image: data['image'],
-      name: data['name'],
+      title: data['title'],
+      color: data['color'],
     );
   }).toList();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jooxclone_jittabun/views/home_page.dart';
+import 'package:jooxclone_jittabun/views/profile_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -23,54 +24,7 @@ class _StartPageState extends State<StartPage> {
     HomePage(),
     // 2. search
     Center(
-      child: Container(
-        width: 150,
-        height: 150,
-        color: Colors.amber,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("KLER"),
-            Text("CHANNEL"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage("assets/pic/yo.jpg"),
-                          fit: BoxFit.fill),
-                      border: Border.all(color: Colors.white, width: 2),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                Container(
-                  height: 70,
-                  width: 70,
-                  // margin: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage("assets/pic/yo.jpg"),
-                          fit: BoxFit.fill),
-                      border: Border.all(color: Colors.white, width: 2),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage("assets/pic/yo.jpg"),
-                          fit: BoxFit.fill),
-                      border: Border.all(color: Colors.white, width: 2),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      child: Text("NOT YET 1"),
     ),
     Center(
       child: Text('NOT YET 2'),
@@ -78,9 +32,7 @@ class _StartPageState extends State<StartPage> {
     Center(
       child: Text('NOT YET 3'),
     ),
-    Center(
-      child: Text('NOT YET 4'),
-    ),
+    ProfilePage(),
   ];
 
   @override

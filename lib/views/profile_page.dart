@@ -4,14 +4,14 @@ import 'package:jooxclone_jittabun/model/ui_modeldata.dart';
 import 'package:jooxclone_jittabun/views/audioplayer_screen.dart';
 // import 'package:jooxclone_jittabun/data/data.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   static const double baseWidth = 430;
   Color? bgColor = Colors.black;
 
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Discover",
+                "Account",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   // height: 5,

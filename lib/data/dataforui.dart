@@ -25,17 +25,17 @@ final List<Map<String, dynamic>> dataforalbumcard = [
 final List<Map<String, dynamic>> datafordaily = [
   {
     "title": "27.6 M",
-    "description": "",
+    "description": "100 ล้านวิว [K-POP]",
     "image": "assets/pic/dailyplaylist1.jpg",
   },
   {
-    "title": "40.1",
-    "description": "",
+    "title": "40.1 M",
+    "description": "New Music 2023",
     "image": "assets/pic/dailyplaylist2.jpg",
   },
   {
-    "title": "10.1",
-    "description": "",
+    "title": "10.1 M",
+    "description": "New Music 2023",
     "image": "assets/pic/dailyplaylist3.jpg",
   },
 ];
@@ -143,9 +143,13 @@ final List<Map<String, dynamic>> dataforsuggest = [
 ];
 
 List<Map<String, dynamic>> artists = [
-  {'image': 'assets/images/artist1.png', 'name': 'The Kid LAROI'},
-  {'image': 'assets/images/artist2.png', 'name': 'Taylor Swift'},
-  {'image': 'assets/images/artist3.png', 'name': 'Post Malone'}
+  {'image': 'assets/pic/yo.jpg', 'title': 'YOUNGOHM', "color": "0xff48494b"},
+  {
+    'image': 'assets/pic/klear.jpg',
+    'title': 'Taylor Swift',
+    "color": "0xffa13d2d"
+  },
+  {'image': 'assets/pic/pai.jpg', 'title': 'Post Malone', 'color': "0xffFFC0CB"}
 ];
 
 
