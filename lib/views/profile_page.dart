@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jooxclone_jittabun/model/ui_modeldata.dart';
@@ -39,914 +40,241 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize: 28 * fem,
                 ),
               ),
+              Expanded(child: SizedBox()),
+              Icon(
+                Icons.camera_alt_outlined,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 20 * fem,
+              ),
+              Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
             ],
           )),
       body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 150 * fem,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: albumCards.length,
-                  itemBuilder: (context, index) {
-                    final item = albumCards[index];
-                    return buildcard(index, item);
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10 * fem,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 38 * fem,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  iconwithtext(
-                      Colors.green.shade300, Icons.music_note, "Playlists"),
-                  iconwithtext(Colors.purple.shade300, Icons.mic, "Karaoke"),
-                  iconwithtext(Colors.red.shade300,
-                      Icons.multitrack_audio_outlined, "Live"),
-                  iconwithtext(Colors.green.shade300, Icons.videocam, "Buzz"),
-                  iconwithtext(Colors.orange.shade200,
-                      Icons.radio_button_checked, "Radio"),
-                ],
-              ),
-              coverpic(),
-              SizedBox(
-                height: 35 * fem,
-              ),
-              Row(
-                children: [
-                  maintitle("Thailand Top Charts [31.0...  "),
-                  iconwithbg()
-                ],
-              ),
-              SizedBox(
-                height: 20 * fem,
-              ),
-              SizedBox(
-                height: 120 * fem,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return topchartcard();
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10 * fem,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 30 * fem,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  maintitle("แนะนำโดย [ แปะหัวใจ (14... "),
-                  Icon(
-                    Icons.refresh,
-                    size: 22 * fem,
-                  ),
-                  SizedBox(
-                    width: 10 * fem,
-                  ),
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(4, 3, 6, 3),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white54)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(Icons.play_arrow,
-                              size: 12 * fem, color: Colors.white54),
-                          Text(
-                            'Play all',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 14 * fem,
-                            ),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 15 * fem,
-              ),
-              SizedBox(
-                child: SizedBox(
-                  height: 200 * fem,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: suggestData.length,
-                    itemBuilder: (context, index) {
-                      final item = suggestData[index];
-                      return suggestcard(index, item);
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        width: 20 * fem,
-                      );
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20 * fem,
-              ),
-              Row(
-                children: [
-                  maintitle("Daily Playlists "),
-                  iconwithbg(),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.more_horiz),
-                  SizedBox(
-                    width: 10 * fem,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20 * fem,
-              ),
-              SizedBox(
-                height: 200 * fem,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: dailyData.length,
-                  itemBuilder: (context, index) {
-                    final item = dailyData[index];
-                    return buildcarddaily(index, item);
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10 * fem,
-                    );
-                  },
-                ),
-              ),
-              Row(
-                children: [
-                  maintitle("Artist Channel "),
-                  //iconwithbg(),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.more_horiz),
-                  SizedBox(
-                    width: 10 * fem,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20 * fem,
-              ),
-              SizedBox(
-                height: 200 * fem,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: artistsData.length,
-                  itemBuilder: (context, index) {
-                    final item = artistsData[index];
-                    return buildcardartist(index, item);
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: 10 * fem,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget topchartcard() {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Row(
-      children: [
-        Container(
-          width: 300,
-          color: const Color.fromRGBO(73, 73, 133, 1),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.all(20.0 * fem),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 100,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: const AssetImage('assets/pic/pai.jpg'),
-                              colorFilter: ColorFilter.mode(
-                                Colors.white.withOpacity(0.8),
-                                BlendMode.modulate,
-                              ))),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 20,
-                      color: Colors.yellow,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.crown,
-                            size: 12 * fem,
-                            color: Colors.brown,
-                          ),
-                          SizedBox(
-                            width: 5 * fem,
-                          ),
-                          Text(
-                            "Vote Now",
-                            style: TextStyle(
-                                color: Colors.brown,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg'),
+                  radius: 30,
                 ),
                 SizedBox(
-                  width: 15 * fem,
+                  width: 20 * fem,
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      "Jittabun Sagganayok",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          // height: 5,
+                          fontSize: 18 * fem,
+                          color: Colors.white),
+                    ),
                     SizedBox(
                       height: 5 * fem,
                     ),
                     Text(
-                      "Daily Popularity",
+                      "ID : 65130413",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18 * fem,
-                      ),
-                    ),
-                    Text(
-                      "Ranking",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18 * fem,
-                      ),
+                          fontWeight: FontWeight.w400,
+                          // height: 5,
+                          fontSize: 14 * fem,
+                          color: Colors.white.withOpacity(0.5)),
                     ),
                     SizedBox(
-                      height: 7 * fem,
+                      height: 5 * fem,
                     ),
                     Row(
                       children: [
                         Text(
-                          "1 ",
+                          "0  ",
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13 * fem,
-                          ),
+                              fontWeight: FontWeight.w400,
+                              // height: 5,
+                              fontSize: 12 * fem,
+                              color: Colors.white),
                         ),
                         Text(
-                          "PaiPai ป๊ายปาย โอริโอ",
+                          "Followers  | ",
                           style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 13 * fem,
-                              color: Colors.white54),
+                              fontWeight: FontWeight.w400,
+                              // height: 5,
+                              fontSize: 12 * fem,
+                              color: Colors.white.withOpacity(0.5)),
+                        ),
+                        Text(
+                          "  1  ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              // height: 5,
+                              fontSize: 12 * fem,
+                              color: Colors.white),
+                        ),
+                        Text(
+                          "Following",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              // height: 5,
+                              fontSize: 12 * fem,
+                              color: Colors.white.withOpacity(0.5)),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 7 * fem,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "2 ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13 * fem,
-                          ),
-                        ),
-                        Text(
-                          "Sunnee",
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 13 * fem,
-                              color: Colors.white54),
-                        ),
-                      ],
-                    ),
+                    )
                   ],
                 )
               ],
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget maintitle(String title) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Text(
-      title,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 22 * fem,
-      ),
-    );
-  }
-
-  Widget iconwithbg() {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Stack(
-      children: [
-        Container(
-          width: 15 * fem,
-          height: 15 * fem,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-          ),
-          child: Center(
-            child: Icon(
-              size: 10 * fem,
-              Icons.arrow_forward_ios,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget iconwithtext(Color bgcolor, IconData icon, String text) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return SizedBox(
-      width: 78 * fem,
-      height: 90 * fem,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 30 * fem,
-                height: 30 * fem,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: bgcolor,
-                ),
-                child: Center(
-                  child: Icon(
-                    size: 27 * fem,
-                    icon,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 7 * fem,
-          ),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 14 * fem,
-              fontWeight: FontWeight.normal,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget coverpic() {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/pic/covernew.jpg",
-          fit: BoxFit.fitWidth,
-          height: 70 * fem,
-        ),
-        Column(
-          children: [
             SizedBox(
-              height: 30 * fem,
+              height: 30,
             ),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 75 * fem,
-                        height: 17 * fem,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white60,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 7 * fem,
-                            ),
-                            Icon(
-                              Icons.headphones,
-                              size: 12 * fem,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 3 * fem,
-                            ),
-                            Text(
-                              "ฟังเพลงเลย",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 8 * fem,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildcard(int index, final item) {
-    Color? textColor = Colors.white60;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return SizedBox(
-      height: 150 * fem,
-      width: 140 * fem,
-      child: Stack(
-        children: [
-          Image.asset(
-            item.image,
-            height: 150 * fem,
-            width: 140 * fem,
-            fit: BoxFit.fill,
-          ),
-          Column(
-            children: [
-              const Expanded(
-                child: SizedBox(),
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 5 * fem,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17 * fem,
-                        ),
-                      ),
-                      Text(
-                        item.description,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 15 * fem,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Expanded(child: SizedBox()),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 7 * fem,
-                      ),
-                      Icon(
-                        Icons.play_circle,
-                        size: 30 * fem,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 2 * fem,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5 * fem,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildcarddaily(int index, final item) {
-    Color? textColor = Colors.white60;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return Column(
-      children: [
-        SizedBox(
-          height: 150 * fem,
-          width: 150 * fem,
-          child: Stack(
-            children: [
-              Image.asset(
-                item.image,
-                height: 150 * fem,
-                width: 150 * fem,
-                fit: BoxFit.fill,
-              ),
-              Column(
-                children: [
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 5 * fem,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17 * fem,
-                            ),
-                          ),
-                          Text(
-                            item.title,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(1),
-                              fontSize: 13 * fem,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Expanded(child: SizedBox()),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 7 * fem,
-                          ),
-                          Icon(
-                            Icons.play_circle,
-                            size: 30 * fem,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 2 * fem,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5 * fem,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Column(
-          children: [
-            SizedBox(
-              height: 5 * fem,
-            ),
-            Text(item.description),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildcardartist(int index, final item) {
-    Color? textColor = Colors.white60;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    Color? colorbg;
-    int colorValue = int.parse(item.color);
-    colorbg = Color(colorValue);
-    return Column(
-      children: [
-        SizedBox(
-          height: 150 * fem,
-          width: 150 * fem,
-          child: Container(
-            width: 150,
-            height: 150,
-            color: colorbg,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
               children: [
-                Text(
-                  item.title,
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(1),
-                      fontSize: 14 * fem,
-                      fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  "CHANNEL",
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(1),
-                      fontSize: 7 * fem,
-                      fontWeight: FontWeight.w700),
+                Icon(
+                  Icons.diamond_outlined,
+                  color: Colors.white,
+                  size: 20,
                 ),
                 SizedBox(
-                  height: 20 * fem,
+                  width: 15 * fem,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 35 * fem,
-                      width: 35 * fem,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(item.image), fit: BoxFit.fill),
-                          border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                    Container(
-                      height: 65 * fem,
-                      width: 65 * fem,
-                      // margin: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(item.image), fit: BoxFit.fill),
-                          border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                    Container(
-                      height: 35 * fem,
-                      width: 35 * fem,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(item.image), fit: BoxFit.fill),
-                          border: Border.all(color: Colors.white, width: 1),
-                          borderRadius: BorderRadius.circular(5)),
-                    ),
-                  ],
+                Text(
+                  "Subscriptions & Benefits",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
                 ),
               ],
             ),
-          ),
-          // Stack(
-          //   children: [
-          //     Image.asset(
-          //       item.image,
-          //       height: 150 * fem,
-          //       width: 150 * fem,
-          //       fit: BoxFit.fill,
-          //     ),
-          //     Column(
-          //       children: [
-          //         const Expanded(
-          //           child: SizedBox(),
-          //         ),
-          //         Row(
-          //           children: [
-          //             SizedBox(
-          //               width: 5 * fem,
-          //             ),
-          //             Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 Text(
-          //                   "",
-          //                   style: TextStyle(
-          //                     fontWeight: FontWeight.bold,
-          //                     fontSize: 17 * fem,
-          //                   ),
-          //                 ),
-          //                 Text(
-          //                   item.title,
-          //                   style: TextStyle(
-          //                     color: Colors.white.withOpacity(1),
-          //                     fontSize: 13 * fem,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //             const Expanded(child: SizedBox()),
-          //             Column(
-          //               children: [
-          //                 SizedBox(
-          //                   height: 7 * fem,
-          //                 ),
-          //                 Icon(
-          //                   Icons.play_circle,
-          //                   size: 30 * fem,
-          //                 ),
-          //               ],
-          //             ),
-          //             SizedBox(
-          //               width: 2 * fem,
-          //             ),
-          //           ],
-          //         ),
-          //         SizedBox(
-          //           height: 5 * fem,
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
-        ),
-        Column(
-          children: [
             SizedBox(
-              height: 5 * fem,
+              height: 20 * fem,
             ),
-            Text(item.title),
+            Row(
+              children: [
+                Icon(
+                  Icons.radio_button_checked,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15 * fem,
+                ),
+                Text(
+                  "Coins & Income",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20 * fem,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.card_giftcard,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15 * fem,
+                ),
+                Text(
+                  "Tasks & Rewards",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20 * fem,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.class_,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15 * fem,
+                ),
+                Text(
+                  "Theme Gallery",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20 * fem,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.note_alt_outlined,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15 * fem,
+                ),
+                Text(
+                  "Feedback",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20 * fem,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15 * fem,
+                ),
+                Text(
+                  "Settings",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // height: 5,
+                      fontSize: 16 * fem,
+                      color: Colors.white),
+                ),
+              ],
+            ),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget suggestcard(int index, final item) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final fem = screenWidth / baseWidth;
-    return SizedBox(
-      // height: 120,
-
-      width: 300 * fem,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AudioPlayerScreen(
-                                uri: item.uri1,
-                                title: item.title1,
-                                displaySubtitle: item.displaySubtitle1,
-                                artist: item.artist1,
-                                artUri: item.artUri1,
-                              )));
-                  // print("OLO");
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      item.image1,
-                      height: 55 * fem,
-                      width: 55 * fem,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      width: 10 * fem,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(item.title1), Text(item.artist1)],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10 * fem,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AudioPlayerScreen(
-                                uri: item.uri2,
-                                title: item.title2,
-                                displaySubtitle: item.displaySubtitle2,
-                                artist: item.artist2,
-                                artUri: item.artUri2,
-                              )));
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      item.image2,
-                      height: 55 * fem,
-                      width: 55 * fem,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      width: 10 * fem,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(item.title2), Text(item.artist2)],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10 * fem,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AudioPlayerScreen(
-                                uri: item.uri3,
-                                title: item.title3,
-                                displaySubtitle: item.displaySubtitle3,
-                                artist: item.artist3,
-                                artUri: item.artUri3,
-                              )));
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      item.image3,
-                      height: 55 * fem,
-                      width: 55 * fem,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      width: 10 * fem,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(item.title3), Text(item.artist3)],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
-
-//   Widget suggestitem(String image, String title, String artist, final item) {
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     final fem = screenWidth / baseWidth;
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       children: [
-//         Image.asset(
-//           item.image1,
-//           height: 55 * fem,
-//           width: 55 * fem,
-//           fit: BoxFit.cover,
-//         ),
-//         SizedBox(
-//           width: 10 * fem,
-//         ),
-//         Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [Text(item.title1), Text(item.artist1)],
-//         ),
-//       ],
-//     );
-//   }
 }
